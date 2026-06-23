@@ -155,16 +155,28 @@ export default function Home() {
     const heroAbout = hero?.querySelector<HTMLElement>(".hero__about");
     const heroStats = hero?.querySelector<HTMLElement>(".hero__stats");
     const contourX = heroContour
-      ? gsap.quickTo(heroContour, "--contour-x", { duration: 0.85, ease: "power3.out" })
+      ? (gsap.quickTo(heroContour, "--contour-x", {
+          duration: 0.85,
+          ease: "power3.out",
+        }) as unknown as (value: string) => void)
       : undefined;
     const contourY = heroContour
-      ? gsap.quickTo(heroContour, "--contour-y", { duration: 0.85, ease: "power3.out" })
+      ? (gsap.quickTo(heroContour, "--contour-y", {
+          duration: 0.85,
+          ease: "power3.out",
+        }) as unknown as (value: string) => void)
       : undefined;
     const contourBgX = heroContour
-      ? gsap.quickTo(heroContour, "--contour-bg-x", { duration: 0.9, ease: "power3.out" })
+      ? (gsap.quickTo(heroContour, "--contour-bg-x", {
+          duration: 0.9,
+          ease: "power3.out",
+        }) as unknown as (value: string) => void)
       : undefined;
     const contourBgY = heroContour
-      ? gsap.quickTo(heroContour, "--contour-bg-y", { duration: 0.9, ease: "power3.out" })
+      ? (gsap.quickTo(heroContour, "--contour-bg-y", {
+          duration: 0.9,
+          ease: "power3.out",
+        }) as unknown as (value: string) => void)
       : undefined;
     const titleX = heroTitle
       ? gsap.quickTo(heroTitle, "x", { duration: 0.7, ease: "power3.out" })
