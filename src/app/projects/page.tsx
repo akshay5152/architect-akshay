@@ -5,39 +5,39 @@ import { useEffect, useRef, useState } from "react";
 
 const menuItems = [
   { title: "Overview", label: "Start Fresh", href: "/" },
-  { title: "About", label: "My Journey", href: "/#about" },
+  { title: "About", label: "Our Soul", href: "/#about" },
   { title: "Contact", label: "Let's Talk", href: "/#contact" },
 ];
 
 const projects = [
   {
-    name: "Karyna Visuals",
-    year: "2026",
-    type: "Professional photographer website",
+    name: "Architecture & Planning",
+    year: "01",
+    type: "Space that works before it looks good",
     tone: "projectCard--sand",
   },
   {
-    name: "Innenausbau Botnaruc",
-    year: "2025",
-    type: "Professional construction business platform",
+    name: "Interior Design",
+    year: "02",
+    type: "Where every corner tells a story",
     tone: "projectCard--green",
   },
   {
-    name: "GERASYM GROUP",
-    year: "2025",
-    type: "Renewable energy business platform",
+    name: "Turnkey Execution",
+    year: "03",
+    type: "One call. Complete delivery.",
     tone: "projectCard--dark",
   },
   {
-    name: "JeType",
-    year: "2024",
-    type: "Interactive platform for typing mastery",
+    name: "Design With Intention",
+    year: "04",
+    type: "A vision you can see, feel, and refine",
     tone: "projectCard--pink",
   },
   {
-    name: "OneHorizon Events",
-    year: "2024",
-    type: "Platform for event organization services",
+    name: "Hand Over A Soul",
+    year: "05",
+    type: "A finished space with feeling",
     tone: "projectCard--blue",
   },
 ];
@@ -180,12 +180,10 @@ export default function ProjectsPage() {
           ))}
         </nav>
         <div className="menuOverlay__bottom">
-          <p>My work is driven by clarity, performance, and attention to detail.</p>
+          <p>We design spaces with soul, where every corner tells a story.</p>
           <div>
-            <a href="mailto:chkstepan11@gmail.com">chkstepan11@gmail.com</a>
-            <a href="https://www.instagram.com/chkstepan.dev">instagram</a>
-            <a href="https://www.linkedin.com/company/chkstepan">linkedin</a>
-            <a href="https://dribbble.com/chkstepan">dribbble</a>
+            <a href="mailto:Bricknsoul@gmail.com">Bricknsoul@gmail.com</a>
+            <a href="https://www.instagram.com/brick_n_soul/">instagram</a>
           </div>
         </div>
       </aside>
@@ -195,21 +193,21 @@ export default function ProjectsPage() {
           <div className="projectGrid" aria-hidden="true" />
           <div className="container projectsHero__inner">
             <div className="projectsHero__meta" data-project-reveal>
-              <span>Crafted Projects</span>
-              <span>Real Results</span>
+              <span>Soulful Spaces</span>
+              <span>Real Homes</span>
             </div>
             <h1 data-project-reveal>
               <span>
-                W<em>a</em>nt To See
+                Sp<em>a</em>ces With Soul
               </span>
-              <strong>What I&apos;ve Built?</strong>
+              <strong>Every Corner Tells A Story</strong>
             </h1>
             <div className="projectsHero__preview" data-project-reveal>
               <span />
-              <p>Selected project preview</p>
+              <p>Architecture and interiors preview</p>
             </div>
             <p className="projectsHero__count" data-project-reveal>
-              Selected projects ( 04 )
+              Selected services ( 05 )
             </p>
           </div>
         </section>
@@ -247,7 +245,7 @@ export default function ProjectsPage() {
         <section className="projectCta">
           <div className="projectCta__track" aria-hidden="true">
             {Array.from({ length: 10 }).map((_, index) => (
-              <span key={index}>{["Be", "Creative", "With", "Me", "✱"][index % 5]}</span>
+              <span key={index}>{["Space", "Meets", "Soul", "Story", "✱"][index % 5]}</span>
             ))}
           </div>
         </section>
@@ -256,8 +254,8 @@ export default function ProjectsPage() {
       <footer className="footer projectFooter">
         <div className="container footer__inner">
           <div>
-            <a href="mailto:chkstepan11@gmail.com">chkstepan11@gmail.com</a>
-            <p>Europe, Romania - Local time</p>
+            <a href="mailto:Bricknsoul@gmail.com">Bricknsoul@gmail.com</a>
+            <p>Architecture, interiors, and turnkey spaces</p>
           </div>
           <nav>
             <a href="/">Overview</a>
@@ -266,9 +264,7 @@ export default function ProjectsPage() {
             <a href="/#about">About</a>
           </nav>
           <nav>
-            <a href="https://www.instagram.com/chkstepan.dev">instagram</a>
-            <a href="https://www.linkedin.com/company/chkstepan">linkedin</a>
-            <a href="https://dribbble.com/chkstepan">dribbble</a>
+            <a href="https://www.instagram.com/brick_n_soul/">instagram</a>
           </nav>
           <p>©2026 All Rights Reserved</p>
         </div>
@@ -280,7 +276,7 @@ export default function ProjectsPage() {
           <span className="footerSprinkle footerSprinkle--five">Craft</span>
         </div>
         <div className="footer__wordmark" aria-hidden="true">
-          CHKSTEPAN
+          BRICK&SOUL
         </div>
       </footer>
     </div>

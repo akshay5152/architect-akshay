@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "chkstepan | Overview",
+  title: "Brick & Soul | Architecture and Interiors",
   description:
-    "Creative studio crafting modern websites with clean design, smooth animations, and high-performance development.",
+    "Architecture, interior design, 3D visualization, and turnkey execution for soulful spaces.",
 };
 
 export default function RootLayout({

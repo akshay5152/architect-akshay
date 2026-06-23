@@ -676,9 +676,19 @@ em {
 
 .clarityTransition__inner {
   position: relative;
+  z-index: 1;
   display: grid;
   place-items: center;
   width: 100%;
+}
+
+.clarityTransition__wash {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  background: #f4f3ed;
+  opacity: 0;
+  pointer-events: none;
 }
 
 .clarityTransition__inner > span {
@@ -700,12 +710,13 @@ em {
 .clarityTransition__title {
   width: max-content;
   font-family: Thunder, Impact, sans-serif;
-  font-size: clamp(84px, 13.5vw, 230px);
+  font-size: clamp(96px, 15vw, 260px);
   line-height: 0.72;
   letter-spacing: -0.055em;
   text-transform: uppercase;
   transform-origin: center center;
   will-change: transform;
+  white-space: nowrap;
 }
 
 .clarityTransition__title em {

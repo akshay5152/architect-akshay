@@ -6,57 +6,55 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useEffect, useMemo, useRef, useState } from "react";
 
 const stats = [
-  ["40", "Projects Completed"],
+  ["20", "Projects Completed"],
   ["5", "Years of Experience"],
-  ["98", "/100 Average Performance Score"],
+  ["100", "% Turnkey Delivery"],
 ];
 
 const approach = [
   {
-    title: "Performance First",
-    text: "I focus on building websites that load fast and feel smooth from the first interaction. Performance is considered at every stage, from structure and assets to code quality and optimization, ensuring reliable results on real devices and networks.",
-    cta: "Learn more",
+    title: "We Listen First",
+    text: "Every great space starts with a conversation — not a sketchbook. We spend time understanding how you live, how you work, and how you want to feel in your space. Your routines, habits, and aspirations become the real brief. The design follows from there.",
+    cta: "Our approach",
   },
   {
-    title: "Clean & Scalable Code",
-    text: "I write clean, well-structured, and maintainable code with a strong focus on clarity and long-term scalability. This approach makes projects easier to understand, update, and extend over time, while reducing complexity and keeping the codebase reliable as it grows.",
-    cta: "My workflow",
+    title: "Design With Intention",
+    text: "Once we understand you, we translate that into a concept — layouts, materials, moods, and 3D visuals that show you exactly what your space will feel like before a single wall goes up. No guesswork. No surprises. Just a clear vision you can see, feel, and refine.",
+    cta: "See our designs",
   },
   {
-    title: "Modern UI & UX",
-    text: "I design and build interfaces with clarity, usability, and consistency in mind. Layouts, interactions, and responsive behavior are carefully crafted to provide an intuitive experience that works seamlessly across all devices and screen sizes.",
-    cta: "View approach",
+    title: "Build With Precision",
+    text: "Design on paper is one thing. Delivering it on site is another. We manage every detail of execution — vendors, materials, timelines, and quality checks. You stay informed without being overwhelmed. We handle the chaos so you don't have to.",
+    cta: "How we execute",
   },
   {
-    title: "SEO & Best Practices",
-    text: "Websites are built using modern best practices and strong technical SEO foundations from the very beginning of the project. This includes clean structure, accessibility, semantic markup, and optimization techniques that support visibility, performance, and long-term growth.",
-    cta: "See details",
-  },
-  {
-    title: "Reliable Delivery",
-    text: "From the initial idea to the final launch, I focus on clear communication, thoughtful planning, and reliable delivery at every stage of the process. Each project is carefully tested and refined to ensure stability, quality, and confidence when the product goes live.",
-    cta: "How I work",
+    title: "Hand Over A Soul",
+    text: "We don't just hand over a finished space — we hand over a feeling. The moment you walk in and think 'this is exactly me' — that's when we know the job is done. Every project ends with a space that's ready to live in, work in, and be proud of.",
+    cta: "View completed projects",
   },
 ];
 
 const services = [
   {
-    title: "Design",
-    caption: "( it's intention )",
+    title: "Architecture",
+    slug: "architecture",
+    caption: "( every square foot is intentional )",
     image: "/images/servicesOverview/DesignCardFirst.webp",
-    text: "I work closely with brands to craft thoughtful, scalable design systems built for long-term growth and consistency, translating ideas into structured and cohesive visual language from art direction and strong visual foundations to responsive interfaces and polished digital experiences that feel intuitive, refined, and built to evolve over time.",
+    text: "A beautiful space that doesn't function is just decoration. We begin with how you live, how you move, and what your space needs to do — then we design around that. From site analysis and floor planning to structural coordination, every decision is rooted in purpose. The result is a foundation that feels as good as it looks.",
   },
   {
-    title: "Engineering",
-    caption: "( every L is data )",
+    title: "Interior Design",
+    slug: "interior",
+    caption: "( design you can feel before it's built )",
     image: "/images/servicesOverview/EngineeringCardSecond.webp",
-    text: "Web systems built to move fast, test ideas, and measure real results. Full-stack development across front-end, back-end, and databases, with experience in custom architectures and production-ready builds. From clean interfaces to reliable server logic, the focus is on performance, maintainability, and systems that scale without unnecessary complexity.",
+    text: "This is where a space gets its soul. We design full interiors — residential homes, commercial offices, cafe fitouts, and hospitality spaces — from concept boards and material palettes to detailed 3D visualization. You see exactly what your space will feel like before a single wall goes up. No guesswork. No surprises. Just a vision you can walk into.",
   },
   {
-    title: "Strategy",
-    caption: "( choosing the right problem )",
+    title: "Turnkey Execution",
+    slug: "turnkey",
+    caption: "( you walk in, we handle everything else )",
     image: "/images/servicesOverview/StrategyCardThird.webp",
-    text: "Strategic thinking built on precision, efficiency, and technical expertise. Every project considers goals, competitive context, SEO, and conversion from the start, forming a clear foundation for design and development. The process stays focused and deliberate, removing unnecessary discussions and early bottlenecks to keep projects moving fast and predictable.",
+    text: "Design is only half the story. We stay with you through every stage of execution — managing vendors, materials, timelines, and on-site decisions from start to finish. You don't chase contractors. We do. You walk into a finished space that's ready to live in, work in, or open to the world. Exactly as designed. Not almost.",
   },
 ];
 
@@ -253,24 +251,34 @@ export default function Home() {
 
       const clarity = document.querySelector(".clarityTransition");
       if (clarity) {
-        gsap.fromTo(
-          ".clarityTransition__title",
-          { scale: 1, yPercent: 0 },
-          {
-            scale: 4.6,
-            yPercent: -2,
-            ease: "none",
-            scrollTrigger: {
-              trigger: clarity,
-              start: "top top",
-              end: "+=150%",
-              scrub: 1,
-              pin: true,
-              anticipatePin: 1,
-              invalidateOnRefresh: true,
-            },
+        const clarityTimeline = gsap.timeline({
+          scrollTrigger: {
+            trigger: clarity,
+            start: "top top",
+            end: "+=320%",
+            scrub: 1,
+            pin: true,
+            anticipatePin: 1,
+            invalidateOnRefresh: true,
           },
-        );
+        });
+
+        clarityTimeline
+          .to(".clarityTransition__title", {
+            scale: 22,
+            yPercent: -3,
+            ease: "none",
+            duration: 0.92,
+          })
+          .to(
+            ".clarityTransition__wash",
+            {
+              opacity: 1,
+              ease: "none",
+              duration: 0.08,
+            },
+            0.92,
+          );
       }
 
       const serviceStack = serviceStackRef.current;
@@ -405,9 +413,9 @@ export default function Home() {
           {["About", "Projects", "Contact"].map((item, index) => {
             const hoverLabel =
               item === "About"
-                ? "My Journey"
+                ? "Our Soul"
                 : item === "Projects"
-                  ? "Recent Work"
+                  ? "Spaces"
                   : "Let's Talk";
 
             return (
@@ -428,12 +436,10 @@ export default function Home() {
           })}
         </nav>
         <div className="menuOverlay__bottom">
-          <p>My work is driven by clarity, performance, and attention to detail.</p>
+          <p>We design spaces with soul, where every corner tells a story.</p>
           <div>
-            <a href="mailto:chkstepan11@gmail.com">chkstepan11@gmail.com</a>
-            <a href="https://www.instagram.com/chkstepan.dev">instagram</a>
-            <a href="https://www.linkedin.com/company/chkstepan">linkedin</a>
-            <a href="https://dribbble.com/chkstepan">dribbble</a>
+            <a href="mailto:Bricknsoul@gmail.com">Bricknsoul@gmail.com</a>
+            <a href="https://www.instagram.com/brick_n_soul/">instagram</a>
           </div>
         </div>
       </aside>
@@ -445,33 +451,34 @@ export default function Home() {
             {visibleStats.map(([value, label]) => (
               <p key={label}>
                 <span>{value}</span>
-                {label.startsWith("/") ? label : `+ ${label}`}
+                {label.startsWith("%") ? label : `+ ${label}`}
               </p>
             ))}
           </div>
 
           <div className="hero__title">
             <h1>
-              <span>I</span> <span>Build</span>{" "}
-              <span>
-                Mo<em>d</em>ern
-              </span>{" "}
-              <strong>Websites</strong>
+              <span>We</span> <span>Design</span>{" "}
+              <strong>Spaces</strong>
             </h1>
             <h2>
-              That <em>Work</em>
+              With <em>Soul</em>
             </h2>
           </div>
 
           <div className="hero__about" id="about">
             <p className="eyebrow">About</p>
             <p>
-              I&apos;m a web developer focused on building modern, fast, and
-              reliable websites. I care not only about how a site looks, but
-              also about how it performs, scales, and feels for real users.
-              From clean code and responsive layouts to performance
-              optimization and SEO, I make sure every project is built with
-              attention to detail and long-term quality in mind.
+              At Brick and Soul, we believe every space holds a story waiting
+              to be told. We don&apos;t just design rooms. We design the feeling
+              of coming home. With over a decade of experience in architecture
+              and interior design, we specialize in creating soulful spaces
+              tailored to client needs.
+              <br />
+              <br />
+              Like that one tea kadai you always go back to — not for the tea,
+              but for how it makes you feel. That&apos;s the soul we design into
+              every space.
             </p>
             <a className="arrowLink" href="#approach">
               Learn more <span>↗</span>
@@ -479,12 +486,12 @@ export default function Home() {
           </div>
           <a
             className="awwwardsBadge"
-            href="https://www.awwwards.com/sites/chkstepan"
+            href="https://www.instagram.com/brick_n_soul/"
             target="_blank"
             rel="noreferrer"
           >
-            <strong>W.</strong>
-            <span>Honors</span>
+            <strong>B.</strong>
+            <span>Soul</span>
           </a>
         </section>
 
@@ -492,16 +499,16 @@ export default function Home() {
           <div className="waveLayer" aria-hidden="true" />
           <div className="container strategy__head" data-reveal>
             <div>
-              <p className="eyebrow">Strategy</p>
+              <p className="eyebrow">Process</p>
               <h2>
-                How I Approach
+                How We Approach
                 <br />
                 Every Project?
               </h2>
             </div>
             <div className="planet">
               <Asset src="/images/other/Planet.svg" alt="Planet" />
-              <span>chkstepan ✦ chkstepan ✦ chkstepan ✦</span>
+              <span>brick and soul ✦ brick and soul ✦</span>
             </div>
           </div>
 
@@ -522,11 +529,12 @@ export default function Home() {
           </div>
         </section>
 
-        <section className="clarityTransition" aria-label="Clarity plus performance">
+        <section className="clarityTransition" aria-label="Space plus soul">
+          <div className="clarityTransition__wash" aria-hidden="true" />
           <div className="clarityTransition__inner">
             <span aria-hidden="true">+</span>
             <h2 className="clarityTransition__title">
-              Clarity <em>+</em> Performance
+              Space <em>+</em> Soul
             </h2>
             <span aria-hidden="true">+</span>
           </div>
@@ -534,17 +542,17 @@ export default function Home() {
 
         <section className="services" id="projects">
           <div className="ticker" aria-hidden="true">
-            <span>clarity meets execution • clarity meets execution •</span>
-            <span>clarity meets execution • clarity meets execution •</span>
+            <span>space meets soul • space meets soul •</span>
+            <span>space meets soul • space meets soul •</span>
           </div>
           <div className="container services__intro" data-reveal>
             <span>✦</span>
             <h2>
               What You Get
               <br />
-              When Clarity
+              When Space
               <br />
-              Meets <em>Execution</em>
+              Meets <em>Soul</em>
             </h2>
             <span>✦</span>
           </div>
@@ -552,7 +560,7 @@ export default function Home() {
           <div className="serviceStack" ref={serviceStackRef}>
             {services.map((service, index) => (
               <article
-                className={`serviceCard serviceCard--${service.title.toLowerCase()}`}
+                className={`serviceCard serviceCard--${service.slug}`}
                 key={service.title}
               >
                 <div className="serviceCard__copy">
@@ -572,23 +580,23 @@ export default function Home() {
 
         <section className="cta container" id="contact" data-reveal>
           <h2>
-            Ready to build something
+            Every Space has a story
             <br />
-            that actually works?
+            let us find yours
           </h2>
           <p>
-            Clear design, solid engineering, and focused strategy — working
-            together as one system.
+            From architecture and interior design to 3D visualization and
+            turnkey execution, we shape spaces that feel personal.
           </p>
-          <a href="mailto:chkstepan11@gmail.com">Let&apos;s talk</a>
+          <a href="mailto:Bricknsoul@gmail.com">Lets Talk.</a>
         </section>
       </main>
 
       <footer className="footer">
         <div className="container footer__inner">
           <div>
-            <a href="mailto:chkstepan11@gmail.com">chkstepan11@gmail.com</a>
-            <p>Europe, Romania - Local time</p>
+            <a href="mailto:Bricknsoul@gmail.com">Bricknsoul@gmail.com</a>
+            <p>Architecture, interiors, and turnkey spaces</p>
           </div>
           <nav>
             <a href="#">Overview</a>
@@ -597,9 +605,7 @@ export default function Home() {
             <a href="#about">About</a>
           </nav>
           <nav>
-            <a href="https://www.instagram.com/chkstepan.dev">instagram</a>
-            <a href="https://www.linkedin.com/company/chkstepan">linkedin</a>
-            <a href="https://dribbble.com/chkstepan">dribbble</a>
+            <a href="https://www.instagram.com/brick_n_soul/">instagram</a>
           </nav>
           <p>©2026 All Rights Reserved</p>
         </div>
@@ -611,7 +617,7 @@ export default function Home() {
           <span className="footerSprinkle footerSprinkle--five">Craft</span>
         </div>
         <div className="footer__wordmark" aria-hidden="true">
-          CHKSTEPAN
+          BRICK&SOUL
         </div>
       </footer>
     </div>
