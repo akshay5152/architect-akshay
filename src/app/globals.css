@@ -333,8 +333,8 @@ img {
   min-height: 100svh;
   position: relative;
   display: block;
-  padding-top: 108px;
-  padding-bottom: 34px;
+  padding-top: clamp(76px, 10vh, 112px);
+  padding-bottom: clamp(26px, 5vh, 46px);
   opacity: 0;
   transform: translateY(36px);
 }
@@ -370,7 +370,7 @@ img {
   justify-content: space-between;
   gap: 20px;
   color: var(--muted);
-  margin: 10px 0 clamp(26px, 5vh, 54px);
+  margin: 0 0 clamp(24px, 5vh, 52px);
 }
 
 .hero__stats p {
@@ -401,7 +401,7 @@ img {
   width: max-content;
   max-width: none;
   white-space: nowrap;
-  font-size: clamp(78px, 12.4vw, 190px);
+  font-size: clamp(86px, 13vw, 208px);
   line-height: 0.72;
   perspective: 800px;
 }
@@ -425,9 +425,9 @@ em {
 
 .hero__title h2 {
   width: 100%;
-  margin-top: clamp(14px, 4vh, 42px);
-  padding-right: 11vw;
-  font-size: clamp(74px, 10.4vw, 160px);
+  margin-top: clamp(8px, 2.6vh, 30px);
+  padding-right: 8vw;
+  font-size: clamp(80px, 11.2vw, 178px);
   line-height: 0.72;
   text-align: right;
 }
@@ -494,7 +494,7 @@ em {
 .strategy {
   min-height: 100svh;
   overflow: hidden;
-  padding-block: clamp(46px, 7vh, 74px);
+  padding-block: clamp(34px, 5vh, 58px);
 }
 
 .waveLayer {
@@ -519,16 +519,17 @@ em {
 
 .strategy__head {
   position: relative;
+  z-index: 6;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 48px;
-  margin-bottom: clamp(22px, 3vh, 36px);
+  margin-bottom: clamp(28px, 4.2vh, 48px);
 }
 
 .strategy h2 {
-  font-size: clamp(64px, 10vw, 150px);
-  line-height: 0.82;
+  font-size: clamp(70px, 9.4vw, 138px);
+  line-height: 0.76;
 }
 
 .planet {
@@ -559,8 +560,9 @@ em {
 
 .approachRail {
   position: relative;
+  z-index: 2;
   width: calc(100% - clamp(18px, 4vw, 54px));
-  height: clamp(300px, 48vh, 430px);
+  height: clamp(330px, 49vh, 470px);
   margin-inline: auto;
   overflow: visible;
   padding: 0;
@@ -582,7 +584,7 @@ em {
   width: 100%;
   margin-inline: auto;
   border-radius: 0;
-  padding: clamp(24px, 3.6vw, 54px) clamp(18px, 4vw, 58px);
+  padding: clamp(28px, 4.2vw, 62px) clamp(22px, 5vw, 72px);
   overflow: hidden;
   color: var(--dark);
   background: var(--card);
@@ -638,7 +640,7 @@ em {
   z-index: 1;
   max-width: 980px;
   font-family: Thunder, Impact, sans-serif;
-  font-size: clamp(52px, 7.2vw, 116px);
+  font-size: clamp(58px, 8.2vw, 132px);
   line-height: 0.78;
   letter-spacing: -0.035em;
   text-transform: uppercase;
@@ -769,8 +771,8 @@ em {
 }
 
 .services__intro h2 {
-  font-size: clamp(56px, 7.8vw, 128px);
-  line-height: 0.86;
+  font-size: clamp(70px, 10vw, 162px);
+  line-height: 0.78;
   letter-spacing: -0.035em;
 }
 
@@ -805,7 +807,7 @@ em {
   height: 100%;
   width: 100vw;
   border-radius: 0;
-  padding: clamp(42px, 7vw, 92px) clamp(18px, 5vw, 72px);
+  padding: clamp(46px, 7vw, 96px) clamp(20px, 5vw, 78px);
   color: var(--fg);
   background: var(--dark);
   box-shadow: 0 -24px 80px rgba(0, 0, 0, 0.18);
@@ -830,21 +832,24 @@ em {
   z-index: 3;
 }
 
-.serviceCard--design {
+.serviceCard--design,
+.serviceCard--architecture {
   background:
     linear-gradient(90deg, rgba(255, 255, 255, 0.3) 1px, transparent 1px) 0 0 / 12.5% 100%,
     #8b705f;
   color: rgba(255, 255, 255, 0.75);
 }
 
-.serviceCard--engineering {
+.serviceCard--engineering,
+.serviceCard--interior {
   background:
     linear-gradient(90deg, rgba(0, 0, 0, 0.16) 1px, transparent 1px) 0 0 / 12.5% 100%,
     #ef6ea5;
   color: rgba(0, 0, 0, 0.78);
 }
 
-.serviceCard--strategy {
+.serviceCard--strategy,
+.serviceCard--turnkey {
   background:
     linear-gradient(90deg, rgba(255, 255, 255, 0.1) 1px, transparent 1px) 0 0 / 12.5% 100%,
     #111;
@@ -906,12 +911,12 @@ em {
 
 .serviceCard__visual h3 {
   position: absolute;
-  left: -18vw;
+  left: -20vw;
   bottom: 0;
   z-index: 2;
   color: inherit;
-  font-size: clamp(74px, 8vw, 128px);
-  line-height: 0.8;
+  font-size: clamp(88px, 10vw, 168px);
+  line-height: 0.76;
 }
 
 .serviceCard__visual p {
@@ -995,8 +1000,8 @@ em {
 
 .footer {
   position: relative;
-  min-height: clamp(430px, 42vw, 620px);
-  padding-block: clamp(24px, 3vw, 38px) 0;
+  min-height: clamp(500px, 48vw, 720px);
+  padding-block: clamp(26px, 4vw, 54px) 0;
   border-top: 1px solid var(--line);
   overflow: hidden;
 }
@@ -1047,7 +1052,7 @@ em {
   line-height: 0.82;
   text-transform: uppercase;
   opacity: 0;
-  animation: footerSprinkleFall 6.2s ease-in-out infinite;
+  will-change: transform, opacity;
 }
 
 .footerSprinkle--one {
@@ -1094,7 +1099,7 @@ em {
   margin: 0;
   opacity: 0.9;
   font-family: Thunder, Impact, sans-serif;
-  font-size: clamp(170px, 28vw, 470px);
+  font-size: clamp(190px, 29vw, 500px);
   font-weight: 900;
   line-height: 0.68;
   letter-spacing: -0.035em;

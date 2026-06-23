@@ -142,6 +142,8 @@ export default function Home() {
         opacity: 0,
       });
       gsap.set(".hero__about > *", { y: 30, opacity: 0 });
+      gsap.set(".footerSprinkle", { yPercent: -130, opacity: 0 });
+      gsap.set(".footer__wordmark", { yPercent: 18, opacity: 0 });
 
       const intro = gsap.timeline({ delay: 1.15 });
       intro
@@ -202,13 +204,16 @@ export default function Home() {
           scale: 1,
           opacity: 1,
         });
-        gsap.set(approachCards.slice(1), { yPercent: 108 });
+        gsap.set(approachCards.slice(1), {
+          yPercent: 116,
+          scale: 0.985,
+        });
 
         const approachTimeline = gsap.timeline({
           scrollTrigger: {
             trigger: ".strategy",
             start: "top top",
-            end: () => `+=${window.innerHeight * 0.46 * (approachCards.length - 1)}`,
+            end: () => `+=${window.innerHeight * 0.72 * (approachCards.length - 1)}`,
             scrub: 1,
             pin: true,
             pinSpacing: true,
@@ -229,9 +234,9 @@ export default function Home() {
             .to(
               previousCard,
               {
-                yPercent: -18,
-                scale: 0.985,
-                opacity: 0.68,
+                yPercent: -10,
+                scale: 0.97,
+                opacity: 0.82,
                 ease: "none",
                 duration: 1,
               },
@@ -241,6 +246,7 @@ export default function Home() {
               card,
               {
                 yPercent: 0,
+                scale: 1,
                 ease: "none",
                 duration: 1,
               },
@@ -294,17 +300,17 @@ export default function Home() {
           scale: 1,
         });
         gsap.set(serviceCards.slice(1), {
-          x: "100vw",
-          y: "100vh",
-          rotate: -4,
-          scale: 0.94,
+          xPercent: 92,
+          yPercent: 78,
+          rotate: -6,
+          scale: 0.92,
         });
 
         const serviceTimeline = gsap.timeline({
           scrollTrigger: {
             trigger: serviceStack,
             start: "top top",
-            end: () => `+=${window.innerHeight * (serviceCards.length - 1)}`,
+            end: () => `+=${window.innerHeight * 1.1 * (serviceCards.length - 1)}`,
             scrub: 1,
             pin: true,
             anticipatePin: 1,
@@ -316,6 +322,8 @@ export default function Home() {
           serviceTimeline.to(card, {
             x: 0,
             y: 0,
+            xPercent: 0,
+            yPercent: 0,
             rotate: 0,
             scale: 1,
             ease: "none",
@@ -323,6 +331,32 @@ export default function Home() {
           });
         });
       }
+
+      gsap.to(".footerSprinkle", {
+        yPercent: 460,
+        opacity: 1,
+        rotate: "random(-18, 24)",
+        stagger: 0.12,
+        ease: "none",
+        scrollTrigger: {
+          trigger: ".footer",
+          start: "top 85%",
+          end: "bottom bottom",
+          scrub: 1,
+        },
+      });
+
+      gsap.to(".footer__wordmark", {
+        yPercent: 0,
+        opacity: 0.92,
+        ease: "power2.out",
+        scrollTrigger: {
+          trigger: ".footer",
+          start: "top 75%",
+          end: "top 30%",
+          scrub: 1,
+        },
+      });
     });
 
     return () => {
