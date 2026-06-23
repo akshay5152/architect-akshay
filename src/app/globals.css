@@ -128,13 +128,17 @@ img {
 .header {
   position: fixed;
   top: 0;
-  left: 50%;
+  left: clamp(14px, 2vw, 32px);
+  right: clamp(14px, 2vw, 32px);
   z-index: 20;
   display: flex;
   align-items: center;
   justify-content: space-between;
+  width: auto;
+  max-width: none;
+  margin-inline: 0;
   padding-block: 22px;
-  transform: translateX(-50%);
+  transform: none;
   mix-blend-mode: difference;
 }
 
@@ -156,6 +160,10 @@ img {
 }
 
 .menuButton {
+  position: fixed;
+  top: clamp(18px, 2vw, 30px);
+  right: clamp(16px, 2vw, 28px);
+  z-index: 25;
   display: inline-flex;
   align-items: center;
   gap: 10px;
@@ -1048,7 +1056,7 @@ em {
 .footer {
   position: relative;
   min-height: clamp(500px, 48vw, 720px);
-  padding-block: clamp(26px, 4vw, 54px) 0;
+  padding-block: clamp(118px, 15vh, 190px) 0;
   border-top: 1px solid var(--line);
   overflow: hidden;
 }
@@ -2020,7 +2028,6 @@ em {
     font-size: clamp(92px, 25vw, 190px);
   }
 
-  .hero,
   .strategy,
   .services__intro,
   .serviceStack {
@@ -2028,8 +2035,16 @@ em {
   }
 
   .hero {
+    min-height: 100svh;
+    width: 100%;
+    overflow: hidden;
     padding-top: 82px;
-    padding-bottom: 46px;
+    padding-inline: 14px;
+    padding-bottom: 28px;
+  }
+
+  .hero.container {
+    width: 100%;
   }
 
   .hero__stats {
@@ -2070,7 +2085,7 @@ em {
     grid-template-columns: minmax(70px, 0.28fr) minmax(0, 1fr);
     gap: clamp(18px, 6vw, 56px);
     max-width: min(620px, calc(100vw - 28px));
-    margin-top: clamp(48px, 10vh, 86px);
+    margin-top: clamp(28px, 6vh, 56px);
     margin-inline: auto;
     font-size: clamp(10px, 2.2vw, 12px);
     line-height: 1.14;
@@ -2086,19 +2101,23 @@ em {
   }
 
   .approachRail {
-    display: grid;
-    height: auto;
+    display: block;
+    width: calc(100% - 24px);
+    height: clamp(430px, 58vh, 560px);
     gap: 0;
+    overflow: visible;
+    padding-bottom: 0;
   }
 
   .approachCard {
-    position: relative;
-    inset: auto;
-    height: auto;
-    min-height: 320px;
+    position: absolute;
+    inset: 0;
+    height: 100%;
+    min-height: 100%;
     grid-template-columns: 1fr;
     gap: 22px;
     padding: 30px 22px;
+    align-content: center;
   }
 
   .approachCard p:not(.approachCard__number) {
@@ -2111,12 +2130,19 @@ em {
   }
 
   .clarityTransition {
-    min-height: 78svh;
+    min-height: 100svh;
+  }
+
+  .clarityTransition__title {
+    font-size: clamp(76px, 19vw, 118px);
+    line-height: 0.74;
   }
 
   .services__intro {
-    min-height: auto;
-    padding-block: 72px;
+    min-height: 100svh;
+    align-items: center;
+    justify-content: center;
+    padding-block: 0;
   }
 
   .serviceStack {

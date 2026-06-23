@@ -3,7 +3,7 @@
 import Lenis from "lenis";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 
 const stats = [
   ["20", "Projects Completed"],
@@ -89,14 +89,41 @@ export default function Home() {
     [loaderCount],
   );
 
+  useLayoutEffect(() => {
+    const originalScrollRestoration = window.history.scrollRestoration;
+    const resetScroll = () => {
+      window.scrollTo(0, 0);
+      document.documentElement.scrollTop = 0;
+      document.body.scrollTop = 0;
+    };
+
+    window.history.scrollRestoration = "manual";
+    resetScroll();
+
+    const firstFrame = window.requestAnimationFrame(resetScroll);
+    const secondFrame = window.requestAnimationFrame(() => {
+      window.requestAnimationFrame(resetScroll);
+    });
+    const settleTimer = window.setTimeout(resetScroll, 250);
+
+    return () => {
+      window.cancelAnimationFrame(firstFrame);
+      window.cancelAnimationFrame(secondFrame);
+      window.clearTimeout(settleTimer);
+      window.history.scrollRestoration = originalScrollRestoration;
+    };
+  }, []);
+
   useEffect(() => {
     gsap.registerPlugin(ScrollTrigger);
+    ScrollTrigger.clearScrollMemory("manual");
 
     const lenis = new Lenis({
       duration: 1.15,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       smoothWheel: true,
     });
+    lenis.scrollTo(0, { immediate: true });
 
     let rafId = 0;
     const raf = (time: number) => {
@@ -260,7 +287,9 @@ export default function Home() {
 
       const approachRail = approachRailRef.current;
       const approachCards = gsap.utils.toArray<HTMLElement>(".approachCard");
-      if (approachRail && approachCards.length > 0 && window.innerWidth > 900) {
+      if (approachRail && approachCards.length > 0) {
+        const approachScrollDistance = window.innerWidth > 900 ? 0.72 : 0.9;
+
         gsap.set(approachCards, {
           position: "absolute",
           inset: 0,
@@ -277,7 +306,7 @@ export default function Home() {
           scrollTrigger: {
             trigger: ".strategy",
             start: "top top",
-            end: () => `+=${window.innerHeight * 0.72 * (approachCards.length - 1)}`,
+            end: () => `+=${window.innerHeight * approachScrollDistance * (approachCards.length - 1)}`,
             scrub: 1,
             pin: true,
             pinSpacing: true,
@@ -321,11 +350,14 @@ export default function Home() {
 
       const clarity = document.querySelector(".clarityTransition");
       if (clarity) {
+        const clarityScale = window.innerWidth > 900 ? 22 : 9;
+        const clarityEnd = window.innerWidth > 900 ? "+=320%" : "+=170%";
+
         const clarityTimeline = gsap.timeline({
           scrollTrigger: {
             trigger: clarity,
             start: "top top",
-            end: "+=320%",
+            end: clarityEnd,
             scrub: 1,
             pin: true,
             anticipatePin: 1,
@@ -335,7 +367,7 @@ export default function Home() {
 
         clarityTimeline
           .to(".clarityTransition__title", {
-            scale: 22,
+            scale: clarityScale,
             yPercent: -3,
             ease: "none",
             duration: 0.92,
@@ -352,11 +384,13 @@ export default function Home() {
       }
 
       const servicesIntro = document.querySelector(".services__intro");
-      if (servicesIntro && window.innerWidth > 900) {
+      if (servicesIntro) {
+        const servicesIntroHold = window.innerWidth > 900 ? "+=110%" : "+=85%";
+
         ScrollTrigger.create({
           trigger: servicesIntro,
           start: "top top",
-          end: "+=110%",
+          end: servicesIntroHold,
           pin: true,
           pinSpacing: true,
           anticipatePin: 1,
@@ -424,35 +458,55 @@ export default function Home() {
         });
       }
 
+      const cta = document.querySelector(".cta");
+      if (cta) {
+        ScrollTrigger.create({
+          trigger: cta,
+          start: "top top",
+          end: () => `+=${window.innerHeight * 0.85}`,
+          pin: true,
+          pinSpacing: true,
+          anticipatePin: 1,
+          invalidateOnRefresh: true,
+        });
+      }
+
       gsap.timeline({
         scrollTrigger: {
           trigger: ".footer",
-          start: "top 85%",
-          end: "bottom top",
+          start: "top 75%",
+          end: "bottom bottom",
           scrub: 1,
+          invalidateOnRefresh: true,
         },
       })
-        .to(".footerSprinkle", {
-          yPercent: 360,
-          opacity: 1,
-          rotate: "random(-18, 24)",
-          stagger: 0.28,
-          ease: "none",
-          duration: 1.15,
-        })
-        .to(
+        .fromTo(
           ".footerSprinkle",
           {
-            yPercent: 500,
+            y: () => -window.innerHeight * 0.28,
             opacity: 0,
-            scale: 0.92,
-            stagger: 0.2,
-            ease: "none",
-            duration: 0.52,
+            scale: 0.94,
+            rotate: "random(-24, 18)",
           },
-          ">",
+          {
+            y: () => window.innerHeight * 1.12,
+            opacity: 1,
+            scale: 1,
+            rotate: "random(-20, 26)",
+            stagger: 0.36,
+            ease: "none",
+            duration: 1.8,
+          },
         )
-        .to({}, { duration: 0.24 });
+        .to(".footerSprinkle", {
+          y: () => window.innerHeight * 1.45,
+          opacity: 0,
+          scale: 0.96,
+          rotate: "random(-18, 24)",
+          stagger: 0.12,
+          ease: "none",
+          duration: 0.34,
+        });
 
       gsap.to(".footer__wordmark", {
         yPercent: 0,
