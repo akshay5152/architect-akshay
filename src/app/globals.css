@@ -332,7 +332,9 @@ img {
 .hero {
   min-height: 100svh;
   position: relative;
-  display: block;
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  align-items: stretch;
   padding-top: clamp(76px, 10vh, 112px);
   padding-bottom: clamp(26px, 5vh, 46px);
   opacity: 0;
@@ -353,16 +355,24 @@ img {
 
 .heroContour {
   position: absolute;
-  inset: 0;
+  inset: -12%;
   z-index: -1;
   overflow: hidden;
   opacity: 0.72;
+  --contour-x: 0px;
+  --contour-y: 0px;
+  --contour-bg-x: 0px;
+  --contour-bg-y: 0px;
   background:
     radial-gradient(60% 90% at 48% 12%, rgba(255, 255, 255, 0.18), transparent 36%),
     repeating-radial-gradient(ellipse at 52% 54%, transparent 0 8px, rgba(253, 253, 253, 0.11) 9px 10px);
+  background-position:
+    calc(var(--contour-bg-x) * -0.35) calc(var(--contour-bg-y) * -0.25),
+    var(--contour-bg-x) var(--contour-bg-y);
   filter: contrast(1.25);
-  transform: skewY(-5deg) scale(1.18);
+  transform: translate3d(var(--contour-x), var(--contour-y), 0) skewY(-5deg) scale(1.2);
   animation: contourFlow 12s ease-in-out infinite alternate;
+  will-change: transform;
 }
 
 .hero__stats {
@@ -370,7 +380,8 @@ img {
   justify-content: space-between;
   gap: 20px;
   color: var(--muted);
-  margin: 0 0 clamp(24px, 5vh, 52px);
+  margin: 0;
+  will-change: transform;
 }
 
 .hero__stats p {
@@ -378,6 +389,16 @@ img {
   border-bottom: 1px solid var(--line);
   padding-bottom: 14px;
   font-size: clamp(10px, 0.8vw, 13px);
+  transition:
+    border-color 0.3s ease,
+    color 0.3s ease,
+    transform 0.3s ease;
+}
+
+.hero__stats p:hover {
+  border-color: rgba(114, 158, 132, 0.76);
+  color: var(--fg);
+  transform: translateY(-4px);
 }
 
 .hero__stats span {
@@ -401,15 +422,32 @@ img {
   width: max-content;
   max-width: none;
   white-space: nowrap;
-  font-size: clamp(86px, 13vw, 208px);
+  font-size: clamp(86px, 12.8vw, 198px);
   line-height: 0.72;
   perspective: 800px;
+}
+
+.hero__title {
+  position: relative;
+  align-self: center;
+  width: 100%;
+  margin-top: clamp(50px, 8vh, 90px);
+  margin-bottom: clamp(28px, 5vh, 58px);
+  transform-style: preserve-3d;
+  will-change: transform;
 }
 
 .hero__title h1 > *,
 .hero__title h2 {
   transform-origin: bottom left;
   display: inline-block;
+  will-change: transform, filter;
+  transition: filter 0.3s ease;
+}
+
+.hero__title h1 > *:hover,
+.hero__title h2:hover {
+  filter: drop-shadow(0 16px 24px rgba(114, 158, 132, 0.28));
 }
 
 .hero__title strong {
@@ -425,24 +463,33 @@ em {
 
 .hero__title h2 {
   width: 100%;
-  margin-top: clamp(8px, 2.6vh, 30px);
-  padding-right: 8vw;
-  font-size: clamp(80px, 11.2vw, 178px);
+  margin-top: clamp(14px, 3.2vh, 38px);
+  padding-right: clamp(32px, 10vw, 190px);
+  font-size: clamp(78px, 10.8vw, 172px);
   line-height: 0.72;
   text-align: right;
 }
 
+.hero__title h2 em {
+  display: inline-block;
+  padding-bottom: 0.05em;
+  border-bottom: 0.035em solid var(--green);
+  line-height: 0.82;
+}
+
 .hero__about {
-  position: absolute;
-  left: 16px;
-  bottom: 34px;
+  position: relative;
+  left: auto;
+  bottom: auto;
   display: grid;
-  grid-template-columns: 110px minmax(260px, 390px);
-  gap: clamp(24px, 10vw, 170px);
-  max-width: 720px;
+  grid-template-columns: 130px minmax(360px, 560px);
+  gap: clamp(42px, 11vw, 190px);
+  max-width: min(980px, 78vw);
+  margin-left: clamp(0px, 2vw, 34px);
   color: var(--muted);
-  font-size: clamp(10px, 0.76vw, 13px);
-  line-height: 1.08;
+  font-size: clamp(11px, 0.82vw, 14px);
+  line-height: 1.18;
+  will-change: transform;
 }
 
 .eyebrow {
@@ -788,7 +835,7 @@ em {
 
 .serviceStack {
   position: relative;
-  width: 100vw;
+  width: 100%;
   height: 100svh;
   margin-inline: 0;
   display: block;
@@ -805,7 +852,7 @@ em {
   gap: 48px;
   min-height: 100%;
   height: 100%;
-  width: 100vw;
+  width: 100%;
   border-radius: 0;
   padding: clamp(46px, 7vw, 96px) clamp(20px, 5vw, 78px);
   color: var(--fg);
@@ -1513,12 +1560,10 @@ em {
 
 @keyframes contourFlow {
   from {
-    background-position: 0 0, 0 0;
-    transform: skewY(-5deg) scale(1.18) translate3d(-2%, -1%, 0);
+    filter: contrast(1.2) brightness(0.94);
   }
   to {
-    background-position: 0 0, 70px 120px;
-    transform: skewY(-2deg) scale(1.24) translate3d(2%, 1%, 0);
+    filter: contrast(1.38) brightness(1.08);
   }
 }
 
@@ -1675,6 +1720,11 @@ em {
     font-size: clamp(74px, 22vw, 140px);
   }
 
+  .hero__title {
+    position: static;
+    transform: none;
+  }
+
   .hero__title h2 {
     text-align: left;
     padding-right: 0;
@@ -1804,5 +1854,294 @@ em {
 
   .menuOverlay__bottom {
     flex-direction: column;
+  }
+
+  .hero,
+  .strategy,
+  .clarityTransition,
+  .services__intro,
+  .serviceStack {
+    min-height: 100svh;
+  }
+
+  .hero {
+    padding-top: 78px;
+    padding-bottom: 24px;
+  }
+
+  .hero__stats {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    margin-top: 0;
+  }
+
+  .hero__stats p {
+    width: 32%;
+    font-size: clamp(8px, 2.4vw, 11px);
+  }
+
+  .hero__title h1 {
+    width: max-content;
+    white-space: nowrap;
+    font-size: clamp(54px, 15vw, 118px);
+  }
+
+  .hero__title h2 {
+    padding-right: 7vw;
+    text-align: right;
+    font-size: clamp(52px, 13vw, 106px);
+  }
+
+  .hero__about {
+    position: absolute;
+    left: 14px;
+    bottom: 24px;
+    grid-template-columns: 74px minmax(190px, 310px);
+    gap: clamp(14px, 8vw, 90px);
+    max-width: calc(100vw - 28px);
+    margin-top: 0;
+    font-size: clamp(8px, 2.3vw, 11px);
+    line-height: 1.08;
+  }
+
+  .strategy {
+    padding-block: 34px;
+  }
+
+  .strategy__head {
+    flex-direction: row;
+    align-items: center;
+    gap: 18px;
+    margin-bottom: 24px;
+  }
+
+  .strategy h2 {
+    font-size: clamp(48px, 14vw, 96px);
+  }
+
+  .planet {
+    width: clamp(92px, 24vw, 150px);
+  }
+
+  .planet img {
+    width: 44%;
+  }
+
+  .planet span {
+    font-size: 8px;
+  }
+
+  .approachRail {
+    width: calc(100% - 24px);
+    height: clamp(300px, 48vh, 420px);
+    padding-bottom: 0;
+  }
+
+  .approachCard {
+    position: absolute;
+    inset: 0;
+    height: 100%;
+    grid-template-columns: 1fr minmax(150px, 0.85fr) 0.34fr;
+    min-height: 100%;
+    align-content: stretch;
+    padding: clamp(20px, 5vw, 34px) clamp(14px, 4vw, 30px);
+  }
+
+  .approachCard h3 {
+    max-width: none;
+    font-size: clamp(38px, 10vw, 78px);
+  }
+
+  .approachCard p:not(.approachCard__number) {
+    max-width: 280px;
+    text-align: center;
+    font-size: clamp(9px, 2.2vw, 12px);
+  }
+
+  .approachCard a {
+    justify-self: center;
+    font-size: 10px;
+  }
+
+  .approachCard__number {
+    font-size: clamp(120px, 28vw, 230px);
+  }
+
+  .services__intro {
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+  }
+
+  .services__intro h2 {
+    font-size: clamp(48px, 14vw, 108px);
+  }
+
+  .serviceCard {
+    position: absolute;
+    inset: 0;
+    grid-template-columns: 1.12fr 0.88fr;
+    gap: 18px;
+    height: 100%;
+    padding: clamp(24px, 7vw, 52px) clamp(14px, 4vw, 32px);
+  }
+
+  .serviceCard__copy {
+    gap: 10px;
+  }
+
+  .serviceCard__copy p {
+    font-size: clamp(11px, 3vw, 16px);
+  }
+
+  .serviceCard__visual {
+    min-height: 58svh;
+  }
+
+  .serviceCard__visual h3 {
+    left: -26vw;
+    font-size: clamp(48px, 14vw, 108px);
+  }
+
+  .footer {
+    min-height: clamp(360px, 62vw, 520px);
+  }
+
+  .footer__inner {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 10px;
+    justify-items: center;
+    font-size: clamp(9px, 2.2vw, 12px);
+  }
+
+  .footer__wordmark {
+    font-size: clamp(92px, 25vw, 190px);
+  }
+
+  .hero,
+  .strategy,
+  .services__intro,
+  .serviceStack {
+    min-height: auto;
+  }
+
+  .hero {
+    padding-top: 82px;
+    padding-bottom: 46px;
+  }
+
+  .hero__stats {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 8px;
+    margin-bottom: clamp(28px, 6vh, 54px);
+  }
+
+  .hero__stats p {
+    width: auto;
+  }
+
+  .hero__title h1 {
+    width: max-content;
+    white-space: nowrap;
+    font-size: clamp(46px, 12vw, 92px);
+  }
+
+  .hero__title {
+    position: relative;
+    top: auto;
+    left: auto;
+    right: auto;
+    width: 100%;
+    margin-top: clamp(24px, 5vh, 44px);
+    transform: none;
+  }
+
+  .hero__title h2 {
+    margin-top: clamp(10px, 2.4vh, 24px);
+    padding-right: clamp(24px, 8vw, 70px);
+    font-size: clamp(44px, 10.8vw, 86px);
+  }
+
+  .hero__about {
+    position: static;
+    grid-template-columns: minmax(70px, 0.28fr) minmax(0, 1fr);
+    gap: clamp(18px, 6vw, 56px);
+    max-width: min(620px, calc(100vw - 28px));
+    margin-top: clamp(48px, 10vh, 86px);
+    margin-inline: auto;
+    font-size: clamp(10px, 2.2vw, 12px);
+    line-height: 1.14;
+  }
+
+  .strategy {
+    padding-block: 52px;
+  }
+
+  .strategy__head {
+    align-items: flex-start;
+    margin-bottom: 28px;
+  }
+
+  .approachRail {
+    display: grid;
+    height: auto;
+    gap: 0;
+  }
+
+  .approachCard {
+    position: relative;
+    inset: auto;
+    height: auto;
+    min-height: 320px;
+    grid-template-columns: 1fr;
+    gap: 22px;
+    padding: 30px 22px;
+  }
+
+  .approachCard p:not(.approachCard__number) {
+    max-width: 100%;
+    text-align: left;
+  }
+
+  .approachCard a {
+    justify-self: start;
+  }
+
+  .clarityTransition {
+    min-height: 78svh;
+  }
+
+  .services__intro {
+    min-height: auto;
+    padding-block: 72px;
+  }
+
+  .serviceStack {
+    display: grid;
+    width: 100%;
+    height: auto;
+    overflow: visible;
+  }
+
+  .serviceCard {
+    position: relative;
+    inset: auto;
+    width: 100%;
+    height: auto;
+    min-height: 560px;
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+
+  .serviceCard__visual {
+    min-height: 260px;
+  }
+
+  .serviceCard__visual h3 {
+    left: 0;
+    bottom: 8px;
   }
 }

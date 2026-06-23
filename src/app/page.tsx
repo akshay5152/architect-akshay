@@ -76,6 +76,7 @@ export default function Home() {
   const loaderRef = useRef<HTMLDivElement>(null);
   const cursorDotRef = useRef<HTMLDivElement>(null);
   const cursorRingRef = useRef<HTMLDivElement>(null);
+  const heroRef = useRef<HTMLElement>(null);
   const menuRef = useRef<HTMLElement>(null);
   const approachRailRef = useRef<HTMLDivElement>(null);
   const serviceStackRef = useRef<HTMLDivElement>(null);
@@ -121,13 +122,76 @@ export default function Home() {
       duration: 0.12,
       ease: "power3.out",
     });
+    const hero = heroRef.current;
+    const heroContour = hero?.querySelector<HTMLElement>(".heroContour");
+    const heroTitle = hero?.querySelector<HTMLElement>(".hero__title");
+    const heroAbout = hero?.querySelector<HTMLElement>(".hero__about");
+    const heroStats = hero?.querySelector<HTMLElement>(".hero__stats");
+    const contourX = heroContour
+      ? gsap.quickTo(heroContour, "--contour-x", { duration: 0.85, ease: "power3.out" })
+      : undefined;
+    const contourY = heroContour
+      ? gsap.quickTo(heroContour, "--contour-y", { duration: 0.85, ease: "power3.out" })
+      : undefined;
+    const contourBgX = heroContour
+      ? gsap.quickTo(heroContour, "--contour-bg-x", { duration: 0.9, ease: "power3.out" })
+      : undefined;
+    const contourBgY = heroContour
+      ? gsap.quickTo(heroContour, "--contour-bg-y", { duration: 0.9, ease: "power3.out" })
+      : undefined;
+    const titleX = heroTitle
+      ? gsap.quickTo(heroTitle, "x", { duration: 0.7, ease: "power3.out" })
+      : undefined;
+    const titleY = heroTitle
+      ? gsap.quickTo(heroTitle, "y", { duration: 0.7, ease: "power3.out" })
+      : undefined;
+    const aboutX = heroAbout
+      ? gsap.quickTo(heroAbout, "x", { duration: 0.8, ease: "power3.out" })
+      : undefined;
+    const aboutY = heroAbout
+      ? gsap.quickTo(heroAbout, "y", { duration: 0.8, ease: "power3.out" })
+      : undefined;
+    const statsY = heroStats
+      ? gsap.quickTo(heroStats, "y", { duration: 0.8, ease: "power3.out" })
+      : undefined;
     const cursorHandler = (event: MouseEvent) => {
       dotX(event.clientX);
       dotY(event.clientY);
       ringX(event.clientX);
       ringY(event.clientY);
+
+      const normalizedX = event.clientX / window.innerWidth - 0.5;
+      const normalizedY = event.clientY / window.innerHeight - 0.5;
+      contourX?.(`${normalizedX * 120}px`);
+      contourY?.(`${normalizedY * 86}px`);
+      contourBgX?.(`${normalizedX * -180}px`);
+      contourBgY?.(`${normalizedY * -140}px`);
+      titleX?.(normalizedX * 18);
+      titleY?.(normalizedY * 12);
+      aboutX?.(normalizedX * -10);
+      aboutY?.(normalizedY * -8);
+      statsY?.(normalizedY * -10);
     };
     window.addEventListener("mousemove", cursorHandler, { passive: true });
+
+    const jumpTargets = hero?.querySelectorAll<HTMLElement>(
+      ".hero__title h1 span, .hero__title h1 strong, .hero__title h2",
+    );
+    const jumpHandler = (event: Event) => {
+      const target = event.currentTarget as HTMLElement;
+      gsap.to(target, {
+        keyframes: [
+          { y: -18, rotate: -1.4, duration: 0.16, ease: "power2.out" },
+          { y: 0, rotate: 0, duration: 0.54, ease: "elastic.out(1, 0.46)" },
+        ],
+        overwrite: "auto",
+      });
+    };
+
+    jumpTargets?.forEach((target) => {
+      target.addEventListener("pointerenter", jumpHandler);
+      target.addEventListener("click", jumpHandler);
+    });
 
     const countTimer = window.setInterval(() => {
       setLoaderCount((current) => Math.min(current + 4, 100));
@@ -287,10 +351,26 @@ export default function Home() {
           );
       }
 
+      const servicesIntro = document.querySelector(".services__intro");
+      if (servicesIntro && window.innerWidth > 900) {
+        ScrollTrigger.create({
+          trigger: servicesIntro,
+          start: "top top",
+          end: "+=110%",
+          pin: true,
+          pinSpacing: true,
+          anticipatePin: 1,
+          invalidateOnRefresh: true,
+        });
+      }
+
       const serviceStack = serviceStackRef.current;
       const serviceCards = gsap.utils.toArray<HTMLElement>(".serviceCard");
 
-      if (serviceStack && serviceCards.length > 0) {
+      if (serviceStack && serviceCards.length > 0 && window.innerWidth > 900) {
+        const serviceHoldDuration = 0.72;
+        const serviceTransitionDuration = 1;
+
         gsap.set(serviceCards, {
           position: "absolute",
           inset: 0,
@@ -310,41 +390,69 @@ export default function Home() {
           scrollTrigger: {
             trigger: serviceStack,
             start: "top top",
-            end: () => `+=${window.innerHeight * 1.1 * (serviceCards.length - 1)}`,
+            end: () => `+=${window.innerHeight * serviceCards.length * 1.35}`,
             scrub: 1,
             pin: true,
+            pinSpacing: true,
             anticipatePin: 1,
             invalidateOnRefresh: true,
+            snap: {
+              snapTo: "labelsDirectional",
+              duration: 0.24,
+              delay: 0.04,
+              ease: "power1.inOut",
+            },
           },
         });
 
-        serviceCards.slice(1).forEach((card) => {
-          serviceTimeline.to(card, {
-            x: 0,
-            y: 0,
-            xPercent: 0,
-            yPercent: 0,
-            rotate: 0,
-            scale: 1,
-            ease: "none",
-            duration: 1,
-          });
+        serviceTimeline.addLabel("service-0").to({}, { duration: serviceHoldDuration });
+
+        serviceCards.slice(1).forEach((card, index) => {
+          serviceTimeline
+            .to(card, {
+              x: 0,
+              y: 0,
+              xPercent: 0,
+              yPercent: 0,
+              rotate: 0,
+              scale: 1,
+              ease: "none",
+              duration: serviceTransitionDuration,
+            })
+            .addLabel(`service-${index + 1}`)
+            .to({}, { duration: serviceHoldDuration });
         });
       }
 
-      gsap.to(".footerSprinkle", {
-        yPercent: 460,
-        opacity: 1,
-        rotate: "random(-18, 24)",
-        stagger: 0.12,
-        ease: "none",
+      gsap.timeline({
         scrollTrigger: {
           trigger: ".footer",
           start: "top 85%",
-          end: "bottom bottom",
+          end: "bottom top",
           scrub: 1,
         },
-      });
+      })
+        .to(".footerSprinkle", {
+          yPercent: 360,
+          opacity: 1,
+          rotate: "random(-18, 24)",
+          stagger: 0.28,
+          ease: "none",
+          duration: 1.15,
+        })
+        .to(
+          ".footerSprinkle",
+          {
+            yPercent: 500,
+            opacity: 0,
+            scale: 0.92,
+            stagger: 0.2,
+            ease: "none",
+            duration: 0.52,
+          },
+          ">",
+        )
+        .to({}, { duration: 0.24 });
 
       gsap.to(".footer__wordmark", {
         yPercent: 0,
@@ -363,6 +471,10 @@ export default function Home() {
       window.cancelAnimationFrame(rafId);
       window.clearInterval(countTimer);
       window.removeEventListener("mousemove", cursorHandler);
+      jumpTargets?.forEach((target) => {
+        target.removeEventListener("pointerenter", jumpHandler);
+        target.removeEventListener("click", jumpHandler);
+      });
       ctx.revert();
       lenis.destroy();
       ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
@@ -479,7 +591,7 @@ export default function Home() {
       </aside>
 
       <main>
-        <section className="hero container">
+        <section className="hero container" ref={heroRef}>
           <div className="heroContour" aria-hidden="true" />
           <div className="hero__stats">
             {visibleStats.map(([value, label]) => (
