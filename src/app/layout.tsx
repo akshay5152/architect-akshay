@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
+import "lenis/dist/lenis.css";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Brick & Soul | Architecture and Interiors",
+  title: "chkstepan | Overview",
   description:
-    "Architecture, interior design, 3D visualization, and turnkey execution for soulful spaces.",
+    "Creative studio crafting modern websites with clean design, smooth animations, and high-performance development.",
 };
 
 export default function RootLayout({
